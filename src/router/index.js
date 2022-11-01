@@ -1,6 +1,6 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
-const Layout = import('@/views/Layout')
-const Home = import('@/views/home')
+const Layout = () => import(/* webpackChunkName: "Layout" */ '@/views/Layout')
+const Home = () => import(/* webpackChunkName: "Home" */'@/views/home')
 
 const routes = [
   // 一级路由布局容器
