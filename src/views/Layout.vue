@@ -13,9 +13,9 @@
 </template>
 
 <script>
-import AppTopNav from '@/components/AppTopNav'
-import AppHeader from '@/components/AppHeader'
-import AppFooter from '@/components/AppFooter'
+import AppTopNav from '@/components/Layout/AppTopNav'
+import AppHeader from '@/components/Layout/AppHeader'
+import AppFooter from '@/components/Layout/AppFooter'
 export default {
   name: 'Layout',
   components: { AppTopNav, AppHeader, AppFooter }
