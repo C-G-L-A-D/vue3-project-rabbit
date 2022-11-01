@@ -1,8 +1,27 @@
 <template>
-  <nav>
-  </nav>
-  <router-view/>
+  <RouterView />
 </template>
+
+<script>
+import request from '@/utils/request'
+import { useStore } from 'vuex'
+export default {
+  name: 'App',
+  setup () {
+    const fn = () => {
+      request('/member/profile', 'get')
+    }
+    const store = useStore()
+    const setUser = () => {
+      store.commit('user/setUser', { account: '2000' })
+    }
+    return {
+      fn,
+      setUser
+    }
+  }
+}
+</script>
 
 <style lang="less">
 #app {
