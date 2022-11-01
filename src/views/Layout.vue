@@ -14,7 +14,7 @@
 
 <script>
 import AppTopNav from '@/components/Layout/AppTopNav'
-import AppHeader from '@/components/Layout/AppHeader'
+import AppHeader from '@/components/Layout/AppHeader/AppHeader.vue'
 import AppFooter from '@/components/Layout/AppFooter'
 export default {
   name: 'Layout',
