@@ -1,28 +1,69 @@
 <template>
   <nav class="app-top-nav">
-    <ul class="contaniner">
-        <li><a href="javascript:;"><i class="iconfont icon-user"></i>我的名称</a></li>
-        <li><a href="javascript:;">请先登录</a></li>
-        <li><a href="javascript:;">免费注册</a></li>
+    <div class="container">
+      <ul>
+        <!-- 登录后才能显示 -->
+        <template v-if="profile.token">
+          <li><a href="javascript:;"><i class="iconfont icon-user"></i>{{profile.account}}</a></li>
+          <li><a href="javascript:;">退出登录</a></li>
+        </template>
+        <template v-else>
+          <li><a href="javascript:;">请先登录</a></li>
+          <li><a href="javascript:;">免费注册</a></li>
+        </template>
         <li><a href="javascript:;">我的订单</a></li>
         <li><a href="javascript:;">会员中心</a></li>
         <li><a href="javascript:;">帮助中心</a></li>
-        <li><a href="javascript:;">在线客服</a></li>
         <li><a href="javascript:;">关于我们</a></li>
         <li><a href="javascript:;"><i class="iconfont icon-phone"></i>手机版</a></li>
-    </ul>
+      </ul>
+    </div>
   </nav>
 </template>
 
 <script>
+import { useStore } from 'vuex'
+
 export default {
-  name: 'AppTopNav'
+  name: 'AppTopNav',
+  setup () {
+    const store = useStore()
+    const profile = store.state.user.profile
+    return { profile }
+  }
 }
 </script>
 
 <style lang="less" scoped>
 .app-top-nav {
-    background-color: #333;
+  background: #333;
+  padding: 0;
+  ul {
+    display: flex;
+    height: 53px;
+    justify-content: flex-end;
+    align-items: center;
+    li {
+      a {
+        padding: 0 15px;
+        color: #cdcdcd;
+        line-height: 1;
+        display: inline-block;
+        i {
+          font-size: 14px;
+          margin-right: 2px;
+        }
+        &:hover {
+          color: @xtxColor;
+        }
+      }
+      ~ li {
+        a {
+          border-left: 2px solid #666;
+        }
+      }
+    }
+  }
 }
-.contaniner {}
+
 </style>
