@@ -16,9 +16,16 @@
 import AppTopNav from '@/components/Layout/AppTopNav'
 import AppHeader from '@/components/Layout/AppHeader/AppHeader.vue'
 import AppFooter from '@/components/Layout/AppFooter'
+import { useStore } from 'vuex'
 export default {
   name: 'Layout',
-  components: { AppTopNav, AppHeader, AppFooter }
+  components: { AppTopNav, AppHeader, AppFooter },
+  setup () {
+    const store = useStore()
+
+    // 在加载首页的时候调用vuex的action方法，获取分类数据
+    store.dispatch('category/getListActions')
+  }
 }
 </script>
 

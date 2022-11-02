@@ -1,37 +1,42 @@
 <template>
   <ul class="app-header-navs">
     <li class="home"><router-link to="/">首页</router-link></li>
-    <li>
-      <a href="#">美食</a>
+    <li v-for="item in list" :key="item.id">
+      <router-link to="/">{{item.name}}</router-link>
       <!-- 子级菜单分类导航布局 -->
       <div class="layout">
         <ul>
-          <li v-for="item in 10" :key="item">
-            <a href="javascript:;">
+          <li v-for="child in item.children" :key="child.id">
+            <router-link to="/">
               <img
-                src="http://zhoushugang.gitee.io/erabbit-client-pc-static/uploads/img/category%20(4).png"
-                alt="图标"
+                :src="child.picture"
+                :alt="`${child.name}图标`"
               />
-              <p>果干</p>
-            </a>
+              <p>{{child.name}}</p>
+            </router-link>
           </li>
         </ul>
       </div>
     </li>
-    <li><a href="#">餐厨</a></li>
-    <li><a href="#">艺术</a></li>
-    <li><a href="#">电器</a></li>
-    <li><a href="#">居家</a></li>
-    <li><a href="#">洗护</a></li>
-    <li><a href="#">孕婴</a></li>
-    <li><a href="#">服装</a></li>
-    <li><a href="#">杂志</a></li>
   </ul>
 </template>
 
 <script>
+import { useStore } from 'vuex'
+import { computed } from '@vue/runtime-core'
 export default {
-  name: 'AppHeaderNav'
+  name: 'AppHeaderNav',
+  setup () {
+    const store = useStore()
+
+    const list = computed(() => {
+      return store.state.category.list
+    })
+
+    return {
+      list
+    }
+  }
 }
 </script>
 
