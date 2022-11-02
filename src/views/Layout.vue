@@ -3,8 +3,9 @@
     <AppTopNav />
     <!-- 头部组件 -->
     <AppHeader />
+    <AppHeaderSticky/>
     <!-- 内容容器 -->
-    <main>
+    <main style="height: 500px;">
         <!-- 二级路由 -->
         <RouterView />
     </main>
@@ -15,11 +16,12 @@
 <script>
 import AppTopNav from '@/components/Layout/AppTopNav'
 import AppHeader from '@/components/Layout/AppHeader/AppHeader.vue'
+import AppHeaderSticky from '@/components/Layout/AppHeader/AppHeaderSticky.vue'
 import AppFooter from '@/components/Layout/AppFooter'
 import { useStore } from 'vuex'
 export default {
   name: 'Layout',
-  components: { AppTopNav, AppHeader, AppFooter },
+  components: { AppTopNav, AppHeader, AppFooter, AppHeaderSticky },
   setup () {
     const store = useStore()
 

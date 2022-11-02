@@ -1,7 +1,9 @@
 <!-- 头部吸顶导航（粘性定位） -->
 <template>
-  <div class="app-header-sticky">
-    <div class="container">
+    <!-- 动态添加滚动动画 -->
+  <div class="app-header-sticky" :class="{show: y>=78}">
+    <!-- 防止遮挡其他元素，添加显示控制 -->
+    <div class="container" v-show="y >= 78">
       <!-- logo -->
       <router-link class="logo" to="/" />
       <!-- 抽离导航公共部分，引入组件 -->
@@ -16,9 +18,23 @@
 
 <script>
 import AppHeaderNav from './AppHeaderNav.vue'
+import { ref, onMounted } from 'vue'
 export default {
   name: 'AppHeaderSticky',
-  components: { AppHeaderNav }
+  components: { AppHeaderNav },
+  setup () {
+    // 监听视窗下滑滚动距离超过78px后显示组件
+    const y = ref(0)
+    onMounted(() => {
+      // 组件渲染就监听滚动事件
+      window.onscroll = () => {
+        const scrollTop = document.documentElement.scrollTop
+        y.value = scrollTop
+      }
+    })
+
+    return { y }
+  }
 }
 </script>
 
@@ -31,6 +47,14 @@ export default {
   top: 0;
   background-color: #fff;
   border-bottom: 1px solid #e4e4e4;
+  // 滚动动画
+  transform: translateY(-100%);
+  opacity: 0;
+  &.show {
+    transition: all 0.3s linear;
+    transform: none;
+    opacity: 1;
+  }
   .container {
     display: flex;
     align-items: center;
@@ -38,7 +62,7 @@ export default {
   .logo {
     width: 200px;
     height: 80px;
-    background: url(../assets/images/logo.png) no-repeat right 2px;
+    background: url(@/assets/images/logo.png) no-repeat right 2px;
     background-size: 160px auto;
   }
   .right {
