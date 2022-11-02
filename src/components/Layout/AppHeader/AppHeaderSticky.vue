@@ -18,12 +18,14 @@
 
 <script>
 import AppHeaderNav from './AppHeaderNav.vue'
-import { ref, onMounted } from 'vue'
+// import { ref, onMounted } from 'vue'
+import { useWindowScroll } from 'vueuse/core'
 export default {
   name: 'AppHeaderSticky',
   components: { AppHeaderNav },
   setup () {
     // 监听视窗下滑滚动距离超过78px后显示组件
+    /* 原生操作DOM方法
     const y = ref(0)
     onMounted(() => {
       // 组件渲染就监听滚动事件
@@ -31,8 +33,9 @@ export default {
         const scrollTop = document.documentElement.scrollTop
         y.value = scrollTop
       }
-    })
-
+    }) */
+    // 使用逻辑封装库提供的函数获取页面滚动距离
+    const { y } = useWindowScroll()
     return { y }
   }
 }
