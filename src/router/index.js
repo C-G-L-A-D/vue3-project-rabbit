@@ -1,14 +1,17 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
-const Layout = () => import(/* webpackChunkName: "Layout" */ '@/views/Layout')
-const Home = () => import(/* webpackChunkName: "Home" */'@/views/home')
 
 const routes = [
   // 一级路由布局容器
   {
     path: '/',
-    component: Layout,
+    component: () => import(/* webpackChunkName: "Layout" */ '@/views/Layout'),
     children: [
-      { path: '/', component: Home }
+      // 首页路由
+      { path: '/', component: () => import(/* webpackChunkName: "Home" */'@/views/home') },
+      // 分类导航一级路由
+      { path: '/category/:id', component: () => import('@/views/category') },
+      // 分类导航二级路由
+      { path: '/category/sub/:id', component: () => import('@/views/category/sub') }
     ]
   }
 ]
