@@ -1,13 +1,13 @@
 <template>
   <ul class="app-header-navs">
     <li class="home"><router-link to="/">首页</router-link></li>
-    <li v-for="item in list" :key="item.id">
-      <router-link to="/">{{item.name}}</router-link>
+    <li v-for="item in list" :key="item.id" @mouseenter="show(item.id)" @mouseleave="hide(item.id)">
+      <router-link :to="`/category/${item.id}`" @click="hide(item.id)">{{item.name}}</router-link>
       <!-- 子级菜单分类导航布局 -->
-      <div class="layout">
+      <div class="layout" :class="{open: item.open}">
         <ul>
           <li v-for="child in item.children" :key="child.id">
-            <router-link to="/">
+            <router-link :to="`/category/sub/${child.id}`" @click="hide(item.id)">
               <img
                 :src="child.picture"
                 :alt="`${child.name}图标`"
@@ -32,9 +32,20 @@ export default {
     const list = computed(() => {
       return store.state.category.list
     })
+    // 显示二级分类导航
+    const show = (id) => {
+      store.commit('category/showSubCategory', id)
+    }
+
+    // 隐藏二级分类导航
+    const hide = (id) => {
+      store.commit('category/hideSubCategory', id)
+    }
 
     return {
-      list
+      list,
+      show,
+      hide
     }
   }
 }
@@ -61,10 +72,6 @@ export default {
       > a {
         color: @xtxColor;
         border-bottom: 1px solid @xtxColor;
-      }
-      // 子级菜单样式
-      > .layout {
-        height: 132px;
       }
     }
   }
@@ -102,6 +109,10 @@ export default {
           }
         }
       }
+    }
+    &.open {
+      height: 132px;
+      // opacity: 1;
     }
   }
 }
