@@ -19,7 +19,7 @@
 <script>
 import AppHeaderNav from './AppHeaderNav.vue'
 // import { ref, onMounted } from 'vue'
-import { useWindowScroll } from 'vueuse/core'
+import { useWindowScroll } from '@vueuse/core'
 export default {
   name: 'AppHeaderSticky',
   components: { AppHeaderNav },
