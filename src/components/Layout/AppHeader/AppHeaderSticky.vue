@@ -53,6 +53,8 @@ export default {
   // 滚动动画
   transform: translateY(-100%);
   opacity: 0;
+  // 避免被主体分类遮挡
+  z-index: 999;
   &.show {
     transition: all 0.3s linear;
     transform: none;
