@@ -2,7 +2,11 @@
   <div class="home-category">
     <!-- 左侧分类 -->
     <ul class="menu">
-      <li v-for="item in menuList" :key="item.id">
+      <li
+        v-for="item in menuList"
+        :key="item.id"
+        @mouseenter="categoryId = item.id"
+      >
         <RouterLink :to="`/category/${item.id}`">{{ item.name }}</RouterLink>
         <template v-if="item.children">
           <RouterLink
@@ -18,14 +22,17 @@
     <!-- 分类推荐弹窗 -->
     <div class="layer">
       <h4>分类推荐 <small>根据您的购买或浏览记录推荐</small></h4>
-      <ul>
-        <li v-for="i in 9" :key="i">
+      <ul v-if="curCategory && curCategory.goods && curCategory.goods.length">
+        <li v-for="item in curCategory.goods" :key="item.id">
           <RouterLink to="/">
-            <img src="https://yanxuan-item.nosdn.127.net/5a115da8f2f6489d8c71925de69fe7b8.png" alt="">
+            <img
+              :src="item.picture"
+              :alt="`推荐商品-${item.name}`"
+            />
             <div class="info">
-              <p class="name ellipsis-2">【定金购】严选零食大礼包（12件）</p>
-              <p class="desc ellipsis">超值组合装，满足馋嘴欲</p>
-              <p class="price"><i>¥</i>100.00</p>
+              <p class="name ellipsis-2">{{item.name}}</p>
+              <p class="desc ellipsis">{{item.desc}}</p>
+              <p class="price"><i>¥</i>{{item.price}}</p>
             </div>
           </RouterLink>
         </li>
@@ -35,7 +42,7 @@
 </template>
 
 <script>
-import { computed, reactive } from 'vue'
+import { computed, reactive, ref } from 'vue'
 import { useStore } from 'vuex'
 export default {
   name: 'HomeCategory',
@@ -54,10 +61,13 @@ export default {
     })
 
     const menuList = computed(() => {
+      // 只需要获取每个一级分类的2个二级分类
       const list = store.state.category.list.map((item) => {
         return {
           id: item.id,
           name: item.name,
+          //   获取对应分类的商品
+          goods: item.goods,
           //   为防止没有子类数据，调用数组方法报错
           children: item.children && item.children.slice(0, 2)
         }
@@ -66,8 +76,17 @@ export default {
       return list
     })
 
+    // 用于记录当前选择的分类id
+    const categoryId = ref(null)
+    // 获取当前选择的分类
+    const curCategory = computed(() => {
+      return menuList.value.find(item => item.id === categoryId.value)
+    })
+
     return {
-      menuList
+      menuList,
+      categoryId,
+      curCategory
     }
   }
 }
@@ -107,6 +126,7 @@ export default {
     top: 0;
     display: none;
     padding: 0 15px;
+    text-align: left;
     h4 {
       font-size: 20px;
       font-weight: normal;
@@ -144,6 +164,7 @@ export default {
             height: 95px;
           }
           .info {
+            text-align: left;
             padding-left: 10px;
             line-height: 24px;
             width: 190px;
@@ -166,7 +187,7 @@ export default {
       }
     }
   }
-//   通过样式控制推荐弹层的显隐
+  //   通过样式控制推荐弹层的显隐
   &:hover {
     .layer {
       display: block;
