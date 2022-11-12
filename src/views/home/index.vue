@@ -4,6 +4,7 @@
       <div class="container">
         <!-- 左侧分类 -->
         <HomeCategory />
+        <HomeBanner/>
       </div>
     </div>
   </div>
@@ -11,9 +12,10 @@
 
 <script>
 import HomeCategory from '@/views/home/components/HomeCategory'
+import HomeBanner from './components/HomeBanner'
 export default {
   name: 'HomePage',
-  components: { HomeCategory }
+  components: { HomeCategory, HomeBanner }
 }
 </script>
 
